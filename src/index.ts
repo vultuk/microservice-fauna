@@ -1,10 +1,11 @@
 import { NextFunction, Request, Response } from 'express';
-import { Client as faunaDBClient } from 'faunadb';
+import * as FaunaTypes from 'faunadb';
 
 import { Settings } from './Types/Settings';
 
 export * from './Types';
-export type FaunaDBClient = faunaDBClient;
+export type FaunaDBClient = FaunaTypes.Client;
+export * as Fauna from 'faunadb';
 
 declare global {
   namespace Express {
@@ -21,7 +22,7 @@ export default (additionalSettings: Settings) => (req: Request, res: Response, n
     ...additionalSettings,
   };
 
-  const database: FaunaDBClient = new faunaDBClient({
+  const database: FaunaDBClient = new FaunaTypes.Client({
     secret: settings.secret,
     domain: settings.domain,
     port: 443,
